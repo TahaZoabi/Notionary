@@ -3,6 +3,7 @@ import express from "express";
 import env from "./util/validateEnv";
 
 import NotesRoutes from "./routes/notes";
+import UsersRoutes from "./routes/users";
 const app = express();
 
 const port = env.PORT || 8000;
@@ -12,6 +13,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/notes", NotesRoutes);
+app.use("/api/auth", UsersRoutes);
 
 app.get("/", (_, res) => {
   res.send({
