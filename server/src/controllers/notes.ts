@@ -25,7 +25,25 @@ export const createNote: RequestHandler = async (req, res) => {
       },
     });
 
-    res.status(201).json(newNote);
+    res.status(201).json({ success: true, data: newNote });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: `${(error as Error).message}` });
+  }
+};
+
+export const getNotes: RequestHandler = async (_, res) => {
+  try {
+    const notes = await prisma.note.findMany();
+    if (!notes) {
+      res.status(404).json({
+        success: false,
+        message: "No notes were found",
+      });
+    }
+
+    res.status(200).json({ success: true, data: notes });
   } catch (error) {
     res
       .status(500)
