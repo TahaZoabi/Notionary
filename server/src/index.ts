@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import env from "./util/validateEnv";
 
+import NotesRoutes from "./routes/notes";
 const app = express();
 
 const port = env.PORT || 8000;
@@ -10,6 +11,8 @@ const port = env.PORT || 8000;
 app.use(express.json());
 
 // Routes
+app.use("/api/notes", NotesRoutes);
+
 app.get("/", (_, res) => {
   res.send({
     welcome: "Hello World!",
