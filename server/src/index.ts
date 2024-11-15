@@ -16,6 +16,11 @@ app.get("/", (_, res) => {
   });
 });
 
+// No Page Found
+app.use((_, res) => {
+  res.status(404).json({ error: "Page Not Found!" });
+});
+
 // Listen App
 app.listen(port, () => {
   console.log(`Server is running on PORT: ${port}`);
