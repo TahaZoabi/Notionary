@@ -1,11 +1,22 @@
+import "dotenv/config";
 import express from "express";
+import env from "./util/validateEnv";
 
 const app = express();
 
+const port = env.PORT || 8000;
+
+// Middleware
+app.use(express.json());
+
+// Routes
 app.get("/", (_, res) => {
-  res.send("Hello World!");
+  res.send({
+    welcome: "Hello World!",
+  });
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on PORT: 3000");
+// Listen App
+app.listen(port, () => {
+  console.log(`Server is running on PORT: ${port}`);
 });
