@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 const app = express();
 import UserRoutes from "./routes/users.js";
+import NotesRoutes from "./routes/notes.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 app.use(express.json());
@@ -23,6 +24,7 @@ app.use(
 );
 
 app.use("/api/users", UserRoutes);
+app.use("/api/notes", NotesRoutes);
 
 app.get("/", (req, res) => {
   res.send({

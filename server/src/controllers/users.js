@@ -2,6 +2,31 @@ import UserModel from "../models/user.js";
 import bcrypt from "bcrypt";
 import validator from "validator";
 
+export const requireAuth = async (req, res, next) => {
+  const authUserId = req.session.userId;
+
+  try {
+    if (!authUserId) {
+      return res
+        .status(403)
+        .json({ success: false, message: "user not authenticated" });
+    }
+
+    const user = await UserModel.findById(authUserId).select("+email").exec();
+
+    if (!user) {
+      return res
+        .status(403)
+        .json({ success: false, message: "User not authenticated" });
+    }
+
+    req.user = user;
+    next();
+  } catch (e) {
+    console.log(`ERROR: ${e}`);
+  }
+};
+
 export const signUp = async (req, res) => {
   const { username, email, password } = req.body;
 
