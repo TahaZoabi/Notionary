@@ -42,11 +42,51 @@ export const signUp = async (req, res) => {
       password: hashedPassword,
     });
 
+    req.session.userId = newUser._id;
+
     return res.status(201).json({
       success: true,
       message: "User signed up successfully!",
       data: newUser,
     });
+  } catch (e) {
+    console.log(`ERROR: ${e}`);
+  }
+};
+
+export const logIn = async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ success: false, message: "username and password are required" });
+  }
+
+  const user = await UserModel.findOne({ username })
+    .select("+password +email")
+    .exec();
+
+  if (!user) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Invalid Credentials" });
+  }
+
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  if (!passwordMatch) {
+    return res
+      .status(403)
+      .json({ success: false, message: "Invalid Credentials" });
+  }
+
+  req.session.userId = user._id;
+  return res.status(201).json({
+    success: true,
+    message: "User logged in successfully!",
+    data: user,
+  });
+  try {
   } catch (e) {
     console.log(`ERROR: ${e}`);
   }

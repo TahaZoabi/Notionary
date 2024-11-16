@@ -3,7 +3,24 @@ import express from "express";
 import mongoose from "mongoose";
 const app = express();
 import UserRoutes from "./routes/users.js";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 app.use(express.json());
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      maxAge: 60 * 60 * 1000,
+    },
+    rolling: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_CONNECTION_STRING,
+    }),
+  }),
+);
 
 app.use("/api/users", UserRoutes);
 
