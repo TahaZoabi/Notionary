@@ -2,11 +2,18 @@ import { RequestHandler } from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import validator from "validator";
+import jwt from "jsonwebtoken";
+import env from "../util/validateEnv";
 const prisma = new PrismaClient();
+
+const generateToken = (email: string) => {
+  return jwt.sign({ email }, env.JWT_SECRET_TOKEN, {
+    expiresIn: "1h",
+  });
+};
 
 export const signUp: RequestHandler = async (req, res) => {
   const { name, email, password } = req.body;
-
   try {
     if (!email || !password) {
       res
@@ -51,9 +58,12 @@ export const signUp: RequestHandler = async (req, res) => {
       },
     });
 
+    const token = generateToken(email);
+
     res.status(201).json({
       success: true,
       message: "User signed up successfully!",
+      data: token,
     });
   } catch (error) {
     res
