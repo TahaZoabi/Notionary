@@ -81,7 +81,7 @@ export const logIn = async (req, res) => {
   }
 
   req.session.userId = user._id;
-  return res.status(201).json({
+  return res.status(200).json({
     success: true,
     message: "User logged in successfully!",
     data: user,
@@ -90,4 +90,15 @@ export const logIn = async (req, res) => {
   } catch (e) {
     console.log(`ERROR: ${e}`);
   }
+};
+
+export const logOut = async (req, res) => {
+  req.session.destroy((error) => {
+    if (error) console.log(`ERROR: ${error}`);
+    return res.status(200).json({
+      success: true,
+      message: "User logged out successfully!",
+      data: {},
+    });
+  });
 };
