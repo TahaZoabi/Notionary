@@ -2,8 +2,10 @@ import "dotenv/config";
 import express from "express";
 import mongoose from "mongoose";
 const app = express();
-
+import UserRoutes from "./routes/users.js";
 app.use(express.json());
+
+app.use("/api/users", UserRoutes);
 
 app.get("/", (req, res) => {
   res.send({
