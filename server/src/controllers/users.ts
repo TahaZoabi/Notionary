@@ -72,3 +72,46 @@ export const signUp: RequestHandler = async (req, res) => {
     return;
   }
 };
+
+export const logIn: RequestHandler = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    res
+      .status(400)
+      .json({ success: false, message: "Email and Password are required!" });
+    return;
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      res.status(400).json({ success: false, message: "Invalid Credentials" });
+      return;
+    }
+
+    const matchedPassword = await bcrypt.compare(password, user.password);
+    if (!matchedPassword) {
+      res
+        .status(400)
+        .json({ success: false, message: "Invalid Email or Password" });
+      return;
+    }
+
+    const token = generateToken(email);
+    res.status(201).json({
+      success: true,
+      message: "User logged in successfully!",
+      data: token,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: `${(error as Error).message}` });
+    return;
+  }
+};
