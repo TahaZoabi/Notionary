@@ -7,6 +7,8 @@ import UserRoutes from "./routes/users.js";
 import NotesRoutes from "./routes/notes.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+
+// Middleware
 app.use(express.json());
 
 app.use(
@@ -30,6 +32,7 @@ app.use(
   }),
 );
 
+// Routes
 app.use("/api/users", UserRoutes);
 app.use("/api/notes", NotesRoutes);
 
@@ -39,6 +42,12 @@ app.get("/", (req, res) => {
   });
 });
 
+// Endpoint not found
+app.use((_, res) => {
+  res.status(404).json({ error: "Page Not Found!" });
+});
+
+// Database connection and Listen app
 mongoose.connect(process.env.MONGO_CONNECTION_STRING).then(() => {
   console.log("MongoDB Connected");
   app.listen(process.env.PORT, () => {
