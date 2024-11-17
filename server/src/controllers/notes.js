@@ -4,10 +4,10 @@ export const createNote = async (req, res) => {
   const { title, description } = req.body;
 
   try {
-    if (!title || !description) {
+    if (!title) {
       return res.status(400).json({
         success: false,
-        message: "title and description are required",
+        message: "Note must have a title",
       });
     }
 
@@ -49,6 +49,49 @@ export const getNotes = async (req, res) => {
   }
 };
 
+export const updateNote = async (req, res) => {
+  const { _id } = req.params;
+  const newTitle = req.body.title;
+  const newDescription = req.body.description;
+
+  try {
+    // Validate the ObjectId
+    if (!mongoose.isValidObjectId(_id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Note ID format.",
+      });
+    }
+
+    if (!newTitle) {
+      return res.status(400).json({
+        success: false,
+        message: "Note must have a title",
+      });
+    }
+
+    const note = await NoteModel.findById(_id).exec();
+    if (!note) {
+      return res.status(404).json({
+        success: false,
+        message: " notes was not found",
+      });
+    }
+
+    note.title = newTitle;
+    note.description = newDescription;
+    const updatedNote = await note.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Note updated successfully!.",
+      data: updatedNote,
+    });
+  } catch (e) {
+    console.log(`ERROR: ${e}`);
+  }
+};
+
 export const deleteNote = async (req, res) => {
   const { _id } = req.params;
 
@@ -61,7 +104,7 @@ export const deleteNote = async (req, res) => {
       });
     }
     // Find the note by ID
-    const note = await NoteModel.findById(_id);
+    const note = await NoteModel.findById(_id).exec();
     if (!note) {
       return res.status(404).json({
         success: false,
