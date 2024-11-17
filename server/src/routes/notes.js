@@ -7,6 +7,7 @@ router.use(requireAuth);
 
 router.post("/", NotesController.createNote);
 router.get("/", NotesController.getNotes);
+router.get("/:_id", NotesController.getNote);
 router.patch("/:_id", NotesController.updateNote);
 router.delete("/:_id", NotesController.deleteNote);
 

@@ -49,6 +49,36 @@ export const getNotes = async (req, res) => {
   }
 };
 
+export const getNote = async (req, res) => {
+  const { userId } = req.session;
+  const { _id } = req.params;
+
+  try {
+    // Validate the ObjectId
+    if (!mongoose.isValidObjectId(_id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Note ID format.",
+      });
+    }
+    const note = await NoteModel.findById(_id).exec();
+    if (!note) {
+      return res.status(404).json({
+        success: false,
+        message: "note was not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Here is your note!",
+      data: note,
+    });
+  } catch (e) {
+    console.log(`ERROR: ${e}`);
+  }
+};
+
 export const updateNote = async (req, res) => {
   const { _id } = req.params;
   const newTitle = req.body.title;
