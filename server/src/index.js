@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 const app = express();
 import UserRoutes from "./routes/users.js";
 import NotesRoutes from "./routes/notes.js";
@@ -20,6 +21,12 @@ app.use(
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_CONNECTION_STRING,
     }),
+  }),
+);
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
   }),
 );
 
