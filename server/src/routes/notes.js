@@ -7,5 +7,6 @@ router.use(requireAuth);
 
 router.post("/", NotesController.createNote);
 router.get("/", NotesController.getNotes);
+router.delete("/:_id", NotesController.deleteNote);
 
 export default router;

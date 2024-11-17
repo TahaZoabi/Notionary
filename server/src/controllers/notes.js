@@ -1,7 +1,8 @@
 import NoteModel from "../models/notes.js";
+import mongoose from "mongoose";
 export const createNote = async (req, res) => {
   const { title, description } = req.body;
-  console.log("Creating note with data:", req.body); // Debug log
+
   try {
     if (!title || !description) {
       return res.status(400).json({
@@ -38,10 +39,41 @@ export const getNotes = async (req, res) => {
       });
     }
 
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       message: "Here is your notes!",
       data: notes,
+    });
+  } catch (e) {
+    console.log(`ERROR: ${e}`);
+  }
+};
+
+export const deleteNote = async (req, res) => {
+  const { _id } = req.params;
+
+  try {
+    // Validate the ObjectId
+    if (!mongoose.isValidObjectId(_id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Note ID format.",
+      });
+    }
+    // Find the note by ID
+    const note = await NoteModel.findById(_id);
+    if (!note) {
+      return res.status(404).json({
+        success: false,
+        message: " notes was not found",
+      });
+    }
+
+    await note.deleteOne();
+    return res.status(200).json({
+      success: true,
+      message: "Note deleted successfully!",
+      data: {},
     });
   } catch (e) {
     console.log(`ERROR: ${e}`);
