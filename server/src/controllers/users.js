@@ -8,16 +8,17 @@ export const requireAuth = async (req, res, next) => {
   try {
     if (!authUserId) {
       return res
-        .status(403)
+        .status(401)
         .json({ success: false, message: "user not authenticated" });
     }
 
     const user = await UserModel.findById(authUserId).select("+email").exec();
 
     if (!user) {
-      return res
-        .status(403)
-        .json({ success: false, message: "User not authenticated" });
+      return res.status(401).json({
+        success: false,
+        message: "User not found",
+      });
     }
 
     req.user = user;
