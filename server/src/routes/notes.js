@@ -6,5 +6,6 @@ const router = Router();
 router.use(requireAuth);
 
 router.post("/", NotesController.createNote);
+router.get("/", NotesController.getNotes);
 
 export default router;
