@@ -1,13 +1,14 @@
-import { Button } from "@/components/ui/button.tsx";
+import Footer from "@/components/Footer.tsx";
+import Header from "@/components/Header.tsx";
 
 function App() {
   return (
     <>
+      <Header />
       <div
         className={" h-screen flex justify-center items-center gap-5 flex-col"}
       >
-        <h1 className={"text-4xl text-primary"}> Hello World</h1>
-        <Button>xD</Button>
+        <Footer />
       </div>
     </>
   );
