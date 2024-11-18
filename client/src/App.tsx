@@ -9,7 +9,7 @@ import Notes from "@/components/Notes.tsx";
 
 function App() {
   return (
-    <>
+    <div className={"max-w-[1200px] mx-auto"}>
       <Header />
       <Routes>
         <Route element={<PrivateRoutes />}>
@@ -21,7 +21,7 @@ function App() {
         <Route path={"/signup"} element={<SignUp />} />
       </Routes>
       <Footer />
-    </>
+    </div>
   );
 }
 
