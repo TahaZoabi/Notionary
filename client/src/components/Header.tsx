@@ -5,12 +5,18 @@ function Header() {
     <header>
       <NavBar>
         <div className={"flex gap-5 items-center"}>
-          <img
-            src="/noteIcon.png"
-            alt="logo"
-            className={"w-[30px] sm:w-[50px]"}
-          />
-          <h2 className={"text-2xl sm:text-4xl font-semibold"}>Notionary</h2>
+          <Link to={"/home"}>
+            {" "}
+            <img
+              src="/noteIcon.png"
+              alt="logo"
+              className={"w-[30px] sm:w-[50px]"}
+            />
+          </Link>
+
+          <h2 className={"text-2xl sm:text-4xl font-semibold select-none"}>
+            Notionary
+          </h2>
         </div>
         <ul className={"flex justify-center items-center gap-5"}>
           <li className={"hover:scale-105 hover:text-gray-500"}>
