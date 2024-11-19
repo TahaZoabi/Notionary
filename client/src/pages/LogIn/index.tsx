@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAuth } from "@/contexts/auth.tsx";
+import { Link } from "react-router-dom";
 
 interface LogInFormData {
   username: string;
@@ -29,7 +30,7 @@ function LogIn() {
     await loginUser(data);
   };
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-sm mx-auto my-auto">
       <CardHeader>
         <CardTitle className="text-2xl">Login</CardTitle>
         <CardDescription>
@@ -66,6 +67,12 @@ function LogIn() {
               {typeof errors.password?.message === "string"
                 ? errors.password?.message
                 : null}
+            </CardDescription>
+            <CardDescription>
+              Dont have ann account ?{" "}
+              <Link className={"font-semibold text-md"} to={"/signup"}>
+                Signup
+              </Link>
             </CardDescription>
           </div>
         </form>

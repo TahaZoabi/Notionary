@@ -31,11 +31,11 @@ export default function SignUp() {
     await signupUser(data);
   };
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-sm mx-auto">
       <CardHeader>
         <CardTitle className="text-2xl">Create a new account</CardTitle>
         <CardDescription>
-          Enter your email below to create your account.
+          Enter your details below to create your account.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
@@ -72,7 +72,7 @@ export default function SignUp() {
               })}
               id="email"
               type="email"
-              placeholder="m@example.com"
+              placeholder="John123@example.com"
             />
             <CardDescription className={"text-destructive text-sm mb-2"}>
               {typeof errors.email?.message === "string"
