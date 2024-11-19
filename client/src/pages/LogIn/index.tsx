@@ -9,16 +9,25 @@ import {
 import { Label } from "@/components/ui/label.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useAuth } from "@/contexts/auth.tsx";
+
+interface LogInFormData {
+  username: string;
+  password: string;
+}
 
 function LogIn() {
+  const { loginUser } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
 
-  function onSubmit() {}
+  const onSubmit: SubmitHandler<LogInFormData> = async (data) => {
+    await loginUser(data);
+  };
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>

@@ -1,4 +1,10 @@
-import { createContext, useState, useContext, ReactNode } from "react";
+import {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  ReactNode,
+} from "react";
 
 // Define types for user data (you can adjust this to fit your actual user model)
 interface User {
@@ -29,7 +35,18 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    const storedUsername = localStorage.getItem("username");
+    return storedUsername ? { username: storedUsername } : null;
+  });
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    console.log(storedUsername + " username in local storage");
+    if (storedUsername) {
+      setUser({ username: storedUsername });
+    }
+  }, []);
 
   const signupUser = async (userData: {
     email: string;
@@ -57,7 +74,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       const data = await res.json();
-      console.log("Signing up", data);
+      console.log("Login response:", data);
+
+      setUser({
+        username: data.username,
+      });
+
+      // save to local storage
+      localStorage.setItem("username", data.username);
     } catch (error) {
       console.error("Signup error:", error);
     }
@@ -67,11 +91,43 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     username: string;
     password: string;
   }) => {
-    console.log("Logging in", userData);
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/users/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+          credentials: "include",
+        },
+      );
+
+      if (!res.ok) {
+        // Log the response to see if there are any details in the response body
+        const errorData = await res.json();
+        console.error("Sign in error:", errorData);
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      setUser({
+        username: data.username,
+      });
+
+      // save to local storage
+      localStorage.setItem("username", data.username);
+
+      console.log("logging in", data);
+    } catch (error) {
+      console.error("login error:", error);
+    }
   };
 
   const logoutUser = async () => {
     setUser(null);
+    localStorage.removeItem("username");
     console.log("Logging out");
   };
 
