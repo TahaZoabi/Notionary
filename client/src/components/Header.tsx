@@ -1,6 +1,10 @@
 import NavBar from "@/components/NavBar.tsx";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/auth.tsx";
+import { Button } from "@/components/ui/button.tsx";
 function Header() {
+  const { user, logoutUser } = useAuth();
+
   return (
     <header>
       <NavBar>
@@ -18,18 +22,49 @@ function Header() {
             Notionary
           </h2>
         </div>
-        <ul className={"flex justify-center items-center gap-5"}>
-          <li className={"hover:scale-105 hover:text-gray-500"}>
-            <Link to={"/"}>Home</Link>
-          </li>
-          <li className={" hover:scale-105 hover:text-gray-500"}>
-            <Link to={"/notes"}>Notes</Link>
-          </li>
-          <li className={"hover:scale-105  hover:text-gray-500"}>
-            <Link to={"/login"}>LogIn</Link>
-          </li>
-        </ul>
-        <div>User stuff here</div>
+        <nav className={"flex justify-center items-center gap-5"}>
+          {user ? (
+            <>
+              <Link className={"hover:scale-105 hover:text-gray-500"} to={"/"}>
+                Home
+              </Link>
+
+              <Link
+                className={"hover:scale-105 hover:text-gray-500"}
+                to={"/notes"}
+              >
+                Notes
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to={"/"} className={"hover:scale-105 hover:text-gray-500"}>
+                Home
+              </Link>
+              <Link
+                className={"hover:scale-105 hover:text-gray-500"}
+                to={"/login"}
+              >
+                Login
+              </Link>{" "}
+              <Link
+                className={"hover:scale-105 hover:text-gray-500"}
+                to={"/signup"}
+              >
+                Signup
+              </Link>
+            </>
+          )}
+        </nav>
+        <div>
+          {user ? (
+            <Button onClick={logoutUser}>Logout</Button>
+          ) : (
+            <Link to={"/login"}>
+              <Button>Get Started</Button>
+            </Link>
+          )}
+        </div>
       </NavBar>
     </header>
   );
