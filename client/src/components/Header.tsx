@@ -5,7 +5,7 @@ function Header() {
     <header>
       <NavBar>
         <div className={"flex gap-5 items-center"}>
-          <Link to={"/home"}>
+          <Link to={"/"}>
             {" "}
             <img
               src="/noteIcon.png"
@@ -20,7 +20,7 @@ function Header() {
         </div>
         <ul className={"flex justify-center items-center gap-5"}>
           <li className={"hover:scale-105 hover:text-gray-500"}>
-            <Link to={"/home"}>Home</Link>
+            <Link to={"/"}>Home</Link>
           </li>
           <li className={" hover:scale-105 hover:text-gray-500"}>
             <Link to={"/notes"}>Notes</Link>
