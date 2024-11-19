@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Note as NoteModel } from "@/models/Note.ts";
-
+import * as NotesAPI from "../network/notes_api.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner.tsx";
 import Note from "@/components/Note.tsx";
@@ -15,40 +15,19 @@ function Notes() {
   useEffect(() => {
     async function loadNotes() {
       try {
-        const notes = await fetchNotes();
-        if (Array.isArray(notes)) {
-          setNotes(notes);
-        } else {
-          console.error("API response is not an array:", notes);
-          setNotes([]); // fallback to empty array if the response is not an array
-        }
+        const notes = await NotesAPI.fetchNotes();
+
+        setNotes(notes);
       } catch (error) {
         console.error("Failed to load notes:", error);
-        setShowLoadingNotesError(true); // Show error if something goes wrong
+        setShowLoadingNotesError(true);
       } finally {
-        setLoadingNotes(false); // Set loading to false whether the request succeeds or fails
+        setLoadingNotes(false);
       }
     }
 
     loadNotes();
   }, []);
-
-  async function fetchNotes(): Promise<NoteModel[]> {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/notes`, {
-      method: "GET",
-      credentials: "include",
-    });
-
-    const responseData = await response.json();
-
-    // Check if the response has a "data" property and is an array
-    if (responseData && Array.isArray(responseData.data)) {
-      return responseData.data; // Return the array inside "data"
-    } else {
-      console.error("API response is not an array:", responseData);
-      return []; // Return an empty array if it's not an array
-    }
-  }
 
   const NotesGrid = (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full ">
