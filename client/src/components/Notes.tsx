@@ -41,7 +41,7 @@ function Notes() {
   }
 
   const NotesGrid = (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-2/3 sm:w-full ">
       {notes.map((note, index) => {
         const key = note._id || `fallback-key-${index}`;
         return (
@@ -87,10 +87,10 @@ function Notes() {
         )}
       </div>
 
-      <div className={"flex  items-center  flex-col gap-5 w-full "}>
+      <div className={"flex  items-center  flex-col gap-5 w-[90%] mx-4"}>
         <div
           className={
-            "flex justify-between px-10 sm:px-20 items-center mb-5 w-full mx-6"
+            "flex justify-between px-10 sm:px-20 items-center mb-5 w-full"
           }
         >
           <h1 className={"text-primary text-3xl sm:text-4xl"}>Notes</h1>

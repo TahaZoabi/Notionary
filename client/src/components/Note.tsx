@@ -35,7 +35,7 @@ function Note({ note, onDeleteNoteClick, onEditNoteClick }: NoteProps) {
           </p>
         </CardContent>
         <CardFooter
-          className={"border-t flex justify-between items-center p-3"}
+          className={"border-t flex justify-between items-center p-3  gap-4"}
         >
           <p className="text-sm text-gray-500  w-full ">{createdUpdateText}</p>
           <div className={"flex gap-3 "}>

@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button.tsx";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/auth.tsx";
 
 function Home() {
+  const { user } = useAuth();
   return (
     <div
       className={
@@ -21,7 +23,7 @@ function Home() {
           Powerful. Get started and keep your ideas within reach.
         </p>
         <Button className={"w-full md:w-1/2"}>
-          <Link to={"/login"}>Get Started</Link>{" "}
+          <Link to={user ? "/notes" : "/login"}>Get Started</Link>{" "}
         </Button>
       </div>
       <img className={"w-full sm:w-1/2 "} src={"/notes.png"} alt={"Notes"} />
