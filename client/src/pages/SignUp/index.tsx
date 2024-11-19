@@ -9,16 +9,27 @@ import {
 } from "@/components/ui/card.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/auth.tsx";
+
+interface SignUpFormData {
+  username: string;
+  email: string;
+  password: string;
+}
 
 export default function SignUp() {
+  const { signupUser } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
 
-  async function onSubmit() {}
+  const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
+    await signupUser(data);
+  };
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -74,13 +85,19 @@ export default function SignUp() {
             <Input
               id="password"
               type="password"
-              placeholder={"******"}
+              placeholder={"*********"}
               {...register("password", { required: "Password is required" })}
             />
             <CardDescription className={"text-destructive text-sm mb-2"}>
               {typeof errors.password?.message === "string"
                 ? errors.password?.message
                 : null}
+            </CardDescription>{" "}
+            <CardDescription>
+              Already have an account ?{" "}
+              <Link className={"font-semibold text-md"} to={"/login"}>
+                Login
+              </Link>
             </CardDescription>
           </div>
         </form>
