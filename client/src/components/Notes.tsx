@@ -12,23 +12,32 @@ function Notes() {
   const [noteToEdit, setNoteToEdit] = useState<NoteModel | null>(null);
   const [loadingNotes, setLoadingNotes] = useState(true);
   const [showLoadingNotesError, setShowLoadingNotesError] = useState(false);
-  useEffect(() => {
-    async function loadNotes() {
-      try {
-        setShowLoadingNotesError(false);
-        setLoadingNotes(true);
-        const notes = await NotesAPI.fetchNotes();
-        setNotes(notes);
-      } catch (error) {
-        console.error("Failed to load notes:", error);
-        setShowLoadingNotesError(true);
-      } finally {
-        setLoadingNotes(false);
-      }
-    }
+  const fetchNotesData = async () => {
+    try {
+      setShowLoadingNotesError(false);
+      setLoadingNotes(true);
 
-    loadNotes();
+      const notes = await NotesAPI.fetchNotes();
+      setNotes(notes);
+    } catch (error) {
+      console.error("Failed to load notes:", error);
+      setShowLoadingNotesError(true);
+    } finally {
+      setLoadingNotes(false);
+    }
+  };
+  useEffect(() => {
+    fetchNotesData();
   }, []);
+
+  const fetchUpdatedNotes = async () => {
+    try {
+      const updatedNotes = await NotesAPI.fetchNotes();
+      setNotes(updatedNotes);
+    } catch (error) {
+      console.error("Failed to load updated notes:", error);
+    }
+  };
 
   async function deleteNote(note: NoteModel) {
     try {
@@ -67,6 +76,7 @@ function Notes() {
             onNotesSaved={(newNote) => {
               setNotes((notes) => [...notes, newNote]);
               setShowDialog((dialog) => !dialog);
+              fetchUpdatedNotes();
             }}
           />
         )}
@@ -80,6 +90,7 @@ function Notes() {
                   : existingNote,
               );
               setNoteToEdit(null);
+              fetchUpdatedNotes();
             }}
             onCancel={() => setNoteToEdit(null)}
             noteToEdit={noteToEdit}
