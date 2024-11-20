@@ -34,7 +34,6 @@ export async function fetchNotes(): Promise<Note[]> {
   if (responseData && Array.isArray(responseData.data)) {
     return responseData.data; // Return the notes array inside 'data'
   } else {
-    console.error("Unexpected API response:", responseData);
     return []; // Return an empty array if 'data' is not an array
   }
 }
@@ -58,7 +57,6 @@ export async function createNote(note: NoteInput) {
       ? responseData.data
       : [responseData.data];
   } else {
-    console.error("Unexpected API response:", responseData);
     return [];
   }
 }
@@ -79,7 +77,6 @@ export async function updateNote(noteId: string, note: NoteInput) {
   if (responseData && Array.isArray(responseData.data)) {
     return responseData.data;
   } else {
-    console.error("Unexpected API response:", responseData);
     return [];
   }
 }

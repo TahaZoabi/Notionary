@@ -6,12 +6,10 @@ import {
   ReactNode,
 } from "react";
 
-// Define types for user data (you can adjust this to fit your actual user model)
 interface User {
   username: string;
 }
 
-// Define types for the context data
 interface AuthContextType {
   user: User | null;
   signupUser: (userData: {
@@ -26,10 +24,8 @@ interface AuthContextType {
   logoutUser: () => Promise<void>;
 }
 
-// Create context with a default value of undefined for now
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Define the AuthProvider component, which takes children as props
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -42,7 +38,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
-    console.log(storedUsername + " username in local storage");
     if (storedUsername) {
       setUser({ username: storedUsername });
     }
@@ -123,7 +118,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logoutUser = async () => {
     setUser(null);
     localStorage.removeItem("username");
-    console.log("Logging out");
   };
 
   const contextData: AuthContextType = {
