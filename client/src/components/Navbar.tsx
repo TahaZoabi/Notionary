@@ -1,4 +1,3 @@
-import NavBar from "@/components/NavBar.tsx";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/auth.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -7,7 +6,11 @@ function Header() {
 
   return (
     <header>
-      <NavBar>
+      <div
+        className={
+          "flex justify-between items-center bg-popover shadow-sm w-full p-4 mb-10"
+        }
+      >
         <div className={"flex gap-5 items-center"}>
           <Link to={"/"}>
             {" "}
@@ -65,7 +68,7 @@ function Header() {
             </Link>
           )}
         </div>
-      </NavBar>
+      </div>
     </header>
   );
 }
