@@ -12,6 +12,9 @@ import { Label } from "@/components/ui/label.tsx";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/auth.tsx";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
+import { useState } from "react";
 
 interface SignUpFormData {
   username: string;
@@ -21,6 +24,7 @@ interface SignUpFormData {
 
 export default function SignUp() {
   const { signupUser } = useAuth();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -28,7 +32,13 @@ export default function SignUp() {
   } = useForm();
 
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
-    await signupUser(data);
+    try {
+      await signupUser(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      }
+    }
   };
   return (
     <Card className="w-full max-w-sm mx-auto">
@@ -39,6 +49,14 @@ export default function SignUp() {
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
+        {/* Show error alert if there is an error message */}
+        {errorMessage && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{errorMessage}</AlertDescription>
+          </Alert>
+        )}
         <form id={"sign-up-form"} onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-2">
             <Label htmlFor="username">Username</Label>
@@ -71,7 +89,6 @@ export default function SignUp() {
                 },
               })}
               id="email"
-              type="email"
               placeholder="John123@example.com"
             />
             <CardDescription className={"text-destructive text-sm mb-2"}>

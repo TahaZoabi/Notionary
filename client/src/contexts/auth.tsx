@@ -70,7 +70,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // Log the response to see if there are any details in the response body
         const errorData = await res.json();
         console.error("Signup error:", errorData);
-        throw new Error(`HTTP error! Status: ${res.status}`);
+        throw new Error(`${errorData.message}`);
       }
 
       const data = await res.json();
@@ -84,6 +84,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       localStorage.setItem("username", data.username);
     } catch (error) {
       console.error("Signup error:", error);
+      throw error;
     }
   };
 
@@ -108,7 +109,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // Log the response to see if there are any details in the response body
         const errorData = await res.json();
         console.error("Sign in error:", errorData);
-        throw new Error(`HTTP error! Status: ${res.status}`);
+        throw new Error(`${errorData.message}`);
       }
 
       const data = await res.json();
@@ -122,6 +123,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       console.log("logging in", data);
     } catch (error) {
       console.error("login error:", error);
+      throw error;
     }
   };
 
