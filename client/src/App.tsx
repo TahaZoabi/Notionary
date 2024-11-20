@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer.tsx";
-import Header from "@/components/Header.tsx";
 import { Route, Routes, Navigate } from "react-router-dom";
 import LogIn from "@/pages/LogIn";
 import SignUp from "@/pages/SignUp";
@@ -7,12 +6,13 @@ import Home from "@/pages/Home";
 import PrivateRoutes from "@/lib/PrivateRoutes.tsx";
 import Notes from "@/components/Notes.tsx";
 import { useAuth } from "@/contexts/auth.tsx";
+import Navbar from "@/components/Navbar.tsx";
 
 function App() {
   const { user } = useAuth();
   return (
     <div className={"max-w-[1200px] mx-auto"}>
-      <Header />
+      <Navbar />
       <Routes>
         <Route element={<PrivateRoutes />}>
           {/*Private notes route goes here*/}
