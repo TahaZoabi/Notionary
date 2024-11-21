@@ -44,9 +44,11 @@ export const signUp = async (req, res) => {
     });
   }
   if (!validator.isStrongPassword(password)) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Please provide a strong password!" });
+    return res.status(400).json({
+      success: false,
+      message:
+        'Password must include at least one uppercase letter, one lowercase letter, one number, and one special character (e.g., !, @, #)."',
+    });
   }
 
   try {
@@ -103,7 +105,10 @@ export const logIn = async (req, res) => {
   if (!passwordMatch) {
     return res
       .status(403)
-      .json({ success: false, message: "Invalid Credentials" });
+      .json({
+        success: false,
+        message: "Invalid username or password. Please try again.",
+      });
   }
 
   req.session.userId = user._id;
