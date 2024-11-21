@@ -28,7 +28,7 @@ function LogIn() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<LogInFormData>();
 
   const onSubmit: SubmitHandler<LogInFormData> = async (data) => {
     try {

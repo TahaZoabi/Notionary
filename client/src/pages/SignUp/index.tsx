@@ -29,7 +29,7 @@ export default function SignUp() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<SignUpFormData>();
 
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
     try {
