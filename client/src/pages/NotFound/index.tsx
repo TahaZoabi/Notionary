@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button.tsx";
 import { Link } from "react-router-dom";
 
-function NotFound() {
+function Notfound() {
   return (
     <div className={"flex justify-center items-center flex-col gap-5"}>
       <h3 className={"text-destructive text-4xl"}>404</h3>
@@ -14,4 +14,4 @@ function NotFound() {
   );
 }
 
-export default NotFound;
+export default Notfound;
