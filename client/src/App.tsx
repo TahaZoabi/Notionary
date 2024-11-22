@@ -7,6 +7,7 @@ import PrivateRoutes from "@/lib/PrivateRoutes.tsx";
 import Notes from "@/components/Notes.tsx";
 import { useAuth } from "@/contexts/auth.tsx";
 import Navbar from "@/components/Navbar.tsx";
+import NotFound from "@/pages/NotFound/NotFound.tsx";
 
 function App() {
   const { user } = useAuth();
@@ -27,6 +28,7 @@ function App() {
           path={"/signup"}
           element={user ? <Navigate to={"/"} /> : <SignUp />}
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </div>
