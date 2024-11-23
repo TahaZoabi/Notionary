@@ -1,4 +1,4 @@
-import { AddEditNoteDialog } from "./AddEditNotesDialog.tsx";
+import { AddEditNoteDialog } from "../../components/AddEditNotesDialog.tsx";
 import Note from "@/components/Note.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useEffect, useState } from "react";

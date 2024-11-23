@@ -4,7 +4,7 @@ import LogIn from "@/pages/LogIn";
 import SignUp from "@/pages/SignUp";
 import Home from "@/pages/Home";
 import PrivateRoutes from "@/lib/PrivateRoutes.tsx";
-import Notes from "@/components/Notes.tsx";
+import Notes from "@/pages/notes";
 import { useAuth } from "@/contexts/auth.tsx";
 import Navbar from "@/components/Navbar.tsx";
 import Notfound from "@/pages/NotFound";
