@@ -18,6 +18,15 @@ function Navbar() {
       <Link className={"hover:scale-105 hover:text-gray-500"} to={"/notes"}>
         Notes
       </Link>
+      {user && (
+        <Link
+          to={"/"}
+          className={"hover:scale-105 hover:text-gray-500 md:hidden"}
+          onClick={logoutUser}
+        >
+          Logout
+        </Link>
+      )}
     </>
   ) : (
     <>
