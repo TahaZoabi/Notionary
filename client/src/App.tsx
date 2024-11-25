@@ -17,7 +17,7 @@ function App() {
       <Routes>
         <Route element={<PrivateRoutes />}>
           {/*Private notes route goes here*/}
-          <Route path={"notes"} element={<Notes />} />
+          <Route path={"/notes"} element={<Notes />} />
         </Route>
         <Route path={"/"} element={<Home />} />
         <Route
